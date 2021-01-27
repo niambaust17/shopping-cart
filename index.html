@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <title>Shopping Cart</title>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css" rel="stylesheet" />
+   <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+   <section>
+      <div class="container">
+         <div class="cart">
+            <div class="col-md-12 col-lg-10 mx-auto">
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item">
+                        <img src="images/product-1.png" alt="">
+                        <h5>iPhone 11 128GB Black</h5>
+                     </div>
+
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button id="item1-decrement" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="total-item1" type="text" class="form-control text-center" value="1">
+                           <button id="item1-increment" class="btn btn-default"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <h5>$<span id="item1-price">1219</span></h5>
+                        <img src="images/remove.png" alt="" class="remove-item" id="item-1">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+                     <div class="col-md-7 center-item mx-auto">
+                        <img src="images/product-2.png" alt="">
+                        <h5>iPhone 11 Silicone Case - Black</h5>
+                     </div>
+                     <div class="col-md-5 center-item">
+                        <div class="input-group number-spinner">
+                           <button id="item2-decrement" class="btn btn-default"><i class="fas fa-minus"></i></button>
+                           <input id="total-item2" type="text" class="form-control text-center" value="1">
+                           <button id="item2-increment" class="btn btn-default"><i class="fas fa-plus"></i></button>
+
+                        </div>
+                        <h5>$<span id="item2-price">59</span></h5>
+                        <img src="images/remove.png" alt="" class="remove-item" id="item-2">
+                     </div>
+                  </div>
+               </div>
+
+               <div class="cart-item">
+                  <div class="row">
+
+                     <div class="col-md-8">
+                        <h5>Subtotal: </h5>
+                        <h5>Tax (3% of Subtotal):</h5>
+                        <h5>Total:</h5>
+                     </div>
+
+                     <div class="col-md-4 status">
+                        <h5>$<span id="sub-total">1278</span></h5>
+                        <h5>$<span id="tax">38.34</span></h5>
+                        <h5>$<span id="total">1316.34</span></h5>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-12 pt-4 pb-4">
+                  <button type="button" class="btn btn-success check-out">Check Out</button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </section>
+   <script>
+      incrementItemQuantity('item1-increment', 'total-item1', 1219, 'item1-price');
+      decrementItemQuantity('item1-decrement', 'total-item1', 1219, 'item1-price');
+      incrementItemQuantity('item2-increment', 'total-item2', 59, 'item2-price');
+      decrementItemQuantity('item2-decrement', 'total-item2', 59, 'item2-price');
+      removeItem('item-1');
+      removeItem('item-2');
+
+      function incrementItemQuantity(id, itemNumber, specificItemPrice, specificItemTotalPrice)
+      {
+         const itemIncrementBtn = document.getElementById(id);
+         itemIncrementBtn.addEventListener('click', function ()
+         {
+            const itemIncrement = document.getElementById(itemNumber).value;
+            let itemIncrementNumber = parseInt(itemIncrement);
+            itemIncrementNumber += 1;
+            document.getElementById(itemNumber).value = itemIncrementNumber;
+
+
+            specificItemCost(itemNumber, specificItemPrice, specificItemTotalPrice);
+
+
+            costCalculation('sub-total', 'tax', 'total');
+         });
+      }
+
+      function decrementItemQuantity(id, itemNumber, specificItemPrice, specificItemTotalPrice)
+      {
+         const itemDecrementBtn = document.getElementById(id);
+         itemDecrementBtn.addEventListener('click', function ()
+         {
+            const itemDecrement = document.getElementById(itemNumber).value;
+            let itemDecrementNumber = parseInt(itemDecrement);
+            itemDecrementNumber -= 1;
+            if (itemDecrementNumber > 0)
+            {
+               document.getElementById(itemNumber).value = itemDecrementNumber;
+            }
+            else
+            {
+               document.getElementById(itemNumber).value = 0;
+            }
+
+
+            specificItemCost(itemNumber, specificItemPrice, specificItemTotalPrice);
+
+
+            costCalculation('sub-total', 'tax', 'total');
+         });
+      }
+
+      function specificItemCost(itemNumber, specificItemPrice, specificItemTotalPrice)
+      {
+         const numberOfItem = document.getElementById(itemNumber).value;
+         const price = numberOfItem * specificItemPrice;
+         document.getElementById(specificItemTotalPrice).innerText = price;
+      }
+
+      function costCalculation(subTotalCount, taxCount, totalCount)
+      {
+         document.getElementById(subTotalCount).innerText = parseFloat(document.getElementById('item1-price').innerText) + parseFloat(document.getElementById('item2-price').innerText);
+
+         let subTotal = document.getElementById(subTotalCount).innerText;
+         document.getElementById(taxCount).innerText = (subTotal * .03).toFixed(2);
+         let tax = document.getElementById(taxCount).innerText;
+         let total = parseFloat(tax) + parseFloat(subTotal);
+         document.getElementById(totalCount).innerText = total.toFixed(2);
+      }
+
+      function removeItem(itemNumber)
+      {
+         document.getElementById(itemNumber).addEventListener('click', function (event)
+         {
+            event.target.parentNode.parentNode.parentNode.remove(event.target.parentNode);
+         });
+      }
+
+   </script>
+</body>
+
+</html>
