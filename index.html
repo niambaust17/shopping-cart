@@ -16,7 +16,7 @@
       <div class="container">
          <div class="cart">
             <div class="col-md-12 col-lg-10 mx-auto">
-               <div class="cart-item">
+               <div class="cart-item" id="cart-1">
                   <div class="row">
                      <div class="col-md-7 center-item">
                         <img src="images/product-1.png" alt="">
@@ -35,7 +35,7 @@
                   </div>
                </div>
 
-               <div class="cart-item">
+               <div class="cart-item" id="cart-2">
                   <div class="row">
                      <div class="col-md-7 center-item mx-auto">
                         <img src="images/product-2.png" alt="">
@@ -82,8 +82,8 @@
       decrementItemQuantity('item1-decrement', 'total-item1', 1219, 'item1-price');
       incrementItemQuantity('item2-increment', 'total-item2', 59, 'item2-price');
       decrementItemQuantity('item2-decrement', 'total-item2', 59, 'item2-price');
-      removeItem('item-1');
-      removeItem('item-2');
+      removeItem('item-1', 'cart-1', 'item1-price');
+      removeItem('item-2', 'cart-2', 'item2-price');
 
       function incrementItemQuantity(id, itemNumber, specificItemPrice, specificItemTotalPrice)
       {
@@ -146,11 +146,18 @@
          document.getElementById(totalCount).innerText = total.toFixed(2);
       }
 
-      function removeItem(itemNumber)
+      function removeItem(itemNumber, cartNumber, specificItemTotalPrice)
       {
          document.getElementById(itemNumber).addEventListener('click', function (event)
          {
-            event.target.parentNode.parentNode.parentNode.remove(event.target.parentNode);
+            // event.target.parentNode.parentNode.parentNode.remove(event.target.parentNode);
+            document.getElementById(cartNumber).style.display = 'none';
+
+            if (document.getElementById(cartNumber).style.display = 'none')
+            {
+               document.getElementById(specificItemTotalPrice).innerText = 0;
+            }
+            costCalculation('sub-total', 'tax', 'total');
          });
       }
 
